@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>МедПроект — проектная документация, которая проходит экспертизу с первого раза</title>
+<meta name="description" content="Проектируем медицинские центры и сети клиник от 400 м². 9 лет только в медицинском проектировании, 100+ объектов.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ============ TOKENS ============ */
+:root{
+  --bg:#F5F1E6;
+  --surface:#ECE5D3;
+  --surface-2:#E3DAC3;
+  --text:#1B1712;
+  --muted:#5B5546;
+  --accent:#8A6416;
+  --accent-strong:#6E4F0F;
+  --accent-soft:#C6A24C;
+  --on-accent:#FFFBF2;
+  --success:#2F6B4F;
+  --rule:#D9D0B8;
+  --rule-strong:#C8BC9C;
+  --shadow: 0 1px 0 rgba(27,23,18,.08);
+  --radius:2px;
+  --serif:'Newsreader', Georgia, 'Times New Roman', serif;
+  --sans:'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  --maxw: 1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151A;
+    --surface:#161C22;
+    --surface-2:#1C232A;
+    --text:#F2EDE1;
+    --muted:#A79F8F;
+    --accent:#C6A24C;
+    --accent-strong:#DAB868;
+    --accent-soft:#C6A24C;
+    --on-accent:#191204;
+    --success:#4C8C6C;
+    --rule:#2B333A;
+    --rule-strong:#38424A;
+    --shadow: 0 1px 0 rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151A;
+  --surface:#161C22;
+  --surface-2:#1C232A;
+  --text:#F2EDE1;
+  --muted:#A79F8F;
+  --accent:#C6A24C;
+  --accent-strong:#DAB868;
+  --accent-soft:#C6A24C;
+  --on-accent:#191204;
+  --success:#4C8C6C;
+  --rule:#2B333A;
+  --rule-strong:#38424A;
+  --shadow: 0 1px 0 rgba(0,0,0,.4);
+}
+
+/* ============ RESET / BASE ============ */
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:16.5px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  transition:background .25s ease, color .25s ease;
+}
+img,svg{max-width:100%;display:block;}
+a{color:inherit;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+h1,h2,h3,h4{font-family:var(--serif); font-weight:500; margin:0; letter-spacing:-0.008em; color:var(--text);}
+p{margin:0;}
+button{font-family:inherit;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+@media (prefers-reduced-motion: reduce){ *{animation-duration:.01ms !important; transition-duration:.01ms !important;} }
+
+/* ============ TITLE-BLOCK LABEL (grounded in drawing sheet numbering) ============ */
+.sheet-rule{
+  display:flex; align-items:baseline; gap:16px;
+  border-top:1px solid var(--rule-strong);
+  padding-top:10px; margin-bottom:34px;
+}
+.sheet-rule .code{
+  font-family:var(--mono); font-size:12.5px; color:var(--muted); white-space:nowrap;
+  letter-spacing:.02em;
+}
+.sheet-rule .name{font-family:var(--mono); font-size:12.5px; color:var(--muted); letter-spacing:.02em;}
+.section-head{max-width:640px; margin-bottom:44px;}
+.section-head h2{font-size:clamp(1.5rem,2.6vw,2.1rem); line-height:1.22;}
+.section-head .lede{margin-top:14px; color:var(--muted); font-size:1.02rem; max-width:56ch;}
+
+section{padding:88px 0;}
+.section-alt{background:var(--surface);}
+
+/* ============ HEADER ============ */
+header.site{
+  position:sticky; top:0; z-index:40;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+.header-inner{display:flex; align-items:center; justify-content:space-between; height:68px; gap:20px;}
+.logo{font-family:var(--serif); font-weight:600; font-size:1.15rem; letter-spacing:-0.01em; text-decoration:none;}
+nav.main-nav{display:flex; gap:28px;}
+nav.main-nav a{font-size:.92rem; text-decoration:none; color:var(--muted); white-space:nowrap;}
+nav.main-nav a:hover{color:var(--text);}
+.header-actions{display:flex; align-items:center; gap:14px;}
+.theme-toggle{
+  border:1px solid var(--rule-strong); background:transparent; color:var(--text);
+  width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  font-size:15px;
+}
+.menu-btn{display:none; border:none; background:transparent; cursor:pointer; padding:6px;}
+.menu-btn span{display:block; width:22px; height:2px; background:var(--text); margin:5px 0;}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:13px 22px; font-size:.94rem; font-weight:600; text-decoration:none; cursor:pointer;
+  border-radius:var(--radius); border:1px solid transparent; white-space:nowrap;
+  font-family:var(--sans);
+}
+.btn-primary{background:var(--accent); color:var(--on-accent); border-color:var(--accent);}
+.btn-primary:hover{background:var(--accent-strong); border-color:var(--accent-strong);}
+.btn-ghost{background:transparent; color:var(--text); border-color:var(--rule-strong);}
+.btn-ghost:hover{border-color:var(--text);}
+.btn-sm{padding:9px 16px; font-size:.85rem;}
+.btn-block{width:100%;}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative; overflow:hidden;
+  padding:96px 0 72px;
+  background:var(--bg);
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--accent) 14%, transparent) 0 1px, transparent 1px 88px),
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, transparent) 0 1px, transparent 1px 88px);
+  opacity:.35;
+  mask-image:radial-gradient(ellipse 90% 70% at 65% 20%, black 30%, transparent 78%);
+  pointer-events:none;
+}
+.hero-inner{position:relative; z-index:1; max-width:760px;}
+.hero-kicker{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-bottom:22px; letter-spacing:.02em;}
+.hero h1{font-size:clamp(2.15rem,4.4vw,3.55rem); line-height:1.14;}
+.hero .lede{margin-top:22px; font-size:1.14rem; color:var(--muted); max-width:56ch; line-height:1.55;}
+.hero-ctas{display:flex; flex-wrap:wrap; gap:14px; margin-top:34px;}
+.hero-note{margin-top:16px; font-size:.86rem; color:var(--muted);}
+
+/* stats */
+.stats{border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);}
+.stats-grid{display:grid; grid-template-columns:repeat(4,1fr); }
+.stat{padding:30px 28px; border-left:1px solid var(--rule);}
+.stat:first-child{border-left:none;}
+.stat b{display:block; font-family:var(--serif); font-size:2.1rem; font-weight:500; color:var(--text);}
+.stat span{display:block; margin-top:6px; font-size:.86rem; color:var(--muted); line-height:1.4;}
+
+/* quote */
+.quote-block{padding:80px 0;}
+.quote-block blockquote{
+  margin:0; font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(1.3rem,2.6vw,1.8rem); line-height:1.45; max-width:780px; color:var(--text);
+}
+.quote-attr{margin-top:20px; font-size:.9rem; color:var(--muted);}
+.quote-attr b{color:var(--text); font-weight:600;}
+
+/* reviews */
+.reviews-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--rule); border:1px solid var(--rule); margin-top:8px;}
+.review{background:var(--bg); padding:32px; display:flex; flex-direction:column; gap:18px;}
+.review p{font-size:.98rem; line-height:1.55;}
+.review-attr{font-size:.85rem; color:var(--muted); margin-top:auto;}
+.review-attr b{color:var(--text); display:block; font-weight:600; font-size:.92rem;}
+.certline{margin-top:34px; font-size:.92rem; color:var(--muted); max-width:70ch;}
+.certline strong{color:var(--text);}
+
+/* focus / directions */
+.focus-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--rule); border:1px solid var(--rule);}
+.focus-card{background:var(--bg); padding:38px; display:flex; flex-direction:column; gap:18px;}
+.focus-icon{width:52px; height:52px; color:var(--accent);}
+.focus-card h3{font-size:1.35rem;}
+.focus-card p{color:var(--muted); font-size:.97rem; line-height:1.55;}
+.focus-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+.focus-list li{position:relative; padding-left:18px; font-size:.92rem; line-height:1.5; color:var(--text);}
+.focus-list li::before{content:""; position:absolute; left:0; top:.55em; width:6px; height:1px; background:var(--accent);}
+.focus-card .btn{align-self:flex-start; margin-top:6px;}
+
+/* process */
+.process-list{display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid var(--rule-strong);}
+.process-item{padding:26px 22px 0 0; border-right:1px solid var(--rule);}
+.process-item:last-child{border-right:none;}
+.process-num{font-family:var(--mono); font-size:12.5px; color:var(--accent); margin-bottom:14px;}
+.process-item h4{font-size:1.02rem; margin-bottom:8px;}
+.process-item p{font-size:.9rem; color:var(--muted); line-height:1.5;}
+
+/* norms */
+.norms-list{border-top:1px solid var(--rule-strong);}
+.norm-row{
+  display:grid; grid-template-columns:120px 1fr auto; gap:20px; align-items:baseline;
+  padding:16px 0; border-bottom:1px solid var(--rule); text-decoration:none; color:var(--text);
+}
+.norm-row:hover .norm-title{color:var(--accent);}
+.norm-code{font-family:var(--mono); font-size:.82rem; color:var(--muted);}
+.norm-title{font-size:.97rem;}
+.norm-go{font-size:.82rem; color:var(--muted); font-family:var(--mono);}
+
+/* quiz */
+.quiz-shell{
+  background:var(--surface); border:1px solid var(--rule-strong);
+  max-width:640px; margin:0 auto; padding:40px;
+}
+.quiz-progress{display:flex; gap:6px; margin-bottom:28px;}
+.quiz-progress i{flex:1; height:3px; background:var(--rule-strong); border-radius:2px;}
+.quiz-progress i.done{background:var(--accent);}
+.quiz-step-label{font-family:var(--mono); font-size:12px; color:var(--muted); margin-bottom:10px;}
+.quiz-shell h3{font-size:1.3rem; margin-bottom:22px;}
+.option-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.opt{
+  border:1px solid var(--rule-strong); background:var(--bg); color:var(--text);
+  padding:16px; text-align:left; cursor:pointer; font-size:.94rem; line-height:1.4;
+  min-height:44px; font-family:var(--sans);
+}
+.opt:hover{border-color:var(--accent);}
+.opt.selected{border-color:var(--accent); background:color-mix(in srgb, var(--accent) 12%, var(--bg));}
+.quiz-nav{display:flex; justify-content:space-between; margin-top:26px;}
+.field{margin-bottom:16px;}
+.field label{display:block; font-size:.86rem; color:var(--muted); margin-bottom:6px;}
+.field input, .field textarea{
+  width:100%; padding:12px 14px; border:1px solid var(--rule-strong); background:var(--bg); color:var(--text);
+  font-family:var(--sans); font-size:.96rem;
+}
+.field textarea{resize:vertical; min-height:80px;}
+.quiz-alt{margin-top:18px; font-size:.85rem; color:var(--muted); text-align:center;}
+.quiz-alt a{color:var(--accent); text-decoration:underline;}
+.quiz-outcome{padding:8px 0 4px; font-size:.9rem; color:var(--muted);}
+.quiz-outcome b{color:var(--text);}
+.quiz-success{display:none; text-align:center; padding:20px 0;}
+.quiz-success h3{margin-bottom:10px;}
+.quiz-success p{color:var(--muted); font-size:.94rem;}
+
+/* knowledge */
+.kb-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule); border:1px solid var(--rule);}
+.kb-card{background:var(--bg); padding:28px; text-decoration:none; color:var(--text);}
+.kb-tag{font-family:var(--mono); font-size:11.5px; color:var(--muted); margin-bottom:14px;}
+.kb-card h4{font-size:1.05rem; margin-bottom:10px; line-height:1.35;}
+.kb-card p{font-size:.88rem; color:var(--muted); line-height:1.5;}
+
+/* final cta */
+.final-cta{background:var(--surface-2); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);}
+.final-cta-inner{display:flex; align-items:flex-end; justify-content:space-between; gap:40px; flex-wrap:wrap;}
+.final-cta h2{font-size:clamp(1.6rem,3vw,2.3rem); max-width:640px; line-height:1.24;}
+
+/* footer */
+footer{padding:56px 0 40px;}
+.footer-top{display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap; padding-bottom:32px; border-bottom:1px solid var(--rule);}
+.footer-top p{color:var(--muted); font-size:.92rem; max-width:44ch; margin-top:12px; line-height:1.55;}
+.footer-contact{font-size:.92rem; color:var(--muted); line-height:1.8;}
+.footer-bottom{padding-top:24px; font-size:.8rem; color:var(--muted); line-height:1.6;}
+.footer-bottom a{color:var(--muted); text-decoration:underline;}
+
+/* sticky bottom cta */
+.sticky-cta{
+  position:fixed; left:0; right:0; bottom:0; z-index:50;
+  background:var(--bg); border-top:1px solid var(--rule-strong);
+  padding:12px 28px; display:none; align-items:center; justify-content:space-between; gap:20px;
+  transform:translateY(100%); transition:transform .25s ease;
+}
+.sticky-cta.show{transform:translateY(0);}
+.sticky-cta span{font-size:.9rem; color:var(--muted);}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:900px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .stat:nth-child(3){border-left:none;}
+  .stat:nth-child(3),.stat:nth-child(4){border-top:1px solid var(--rule);}
+  .reviews-grid, .kb-grid{grid-template-columns:1fr;}
+  .focus-grid{grid-template-columns:1fr;}
+  .process-list{grid-template-columns:1fr 1fr; row-gap:28px;}
+  .process-item{border-right:none; border-bottom:1px solid var(--rule); padding-bottom:20px;}
+}
+@media (max-width:780px){
+  nav.main-nav{
+    position:absolute; top:68px; left:0; right:0; background:var(--bg);
+    border-bottom:1px solid var(--rule); flex-direction:column; gap:0;
+    padding:8px 28px 18px; display:none;
+  }
+  nav.main-nav.open{display:flex;}
+  nav.main-nav a{padding:11px 0; border-bottom:1px solid var(--rule);}
+  .menu-btn{display:block;}
+  .header-actions .btn-sm{display:none;}
+  section{padding:60px 0;}
+  .norm-row{grid-template-columns:1fr; gap:4px;}
+  .norm-go{display:none;}
+}
+@media (max-width:560px){
+  .option-grid{grid-template-columns:1fr;}
+  .process-list{grid-template-columns:1fr;}
+  .quiz-shell{padding:26px 20px;}
+  .final-cta-inner .btn{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap header-inner">
+    <a href="#top" class="logo">МедПроект</a>
+    <nav class="main-nav" id="mainNav">
+      <a href="#experience">Опыт</a>
+      <a href="#focus">Направления</a>
+      <a href="#norms">Нормативы</a>
+      <a href="#quiz">Заявка</a>
+      <a href="#knowledge">База знаний</a>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">◐</button>
+      <a href="#quiz" class="btn btn-primary btn-sm">Обсудить проект</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Меню"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-inner">
+    <div class="hero-kicker">Архитектура и инженерия медицинских объектов</div>
+    <h1>Проектная документация, которая проходит экспертизу с первого раза</h1>
+    <p class="lede">Проектируем медицинские центры и сети клиник от 400 м². 9 лет только в медицинском проектировании и 100+ объектов — вместо репутационного риска вы получаете документацию, согласованную без замечаний.</p>
+    <div class="hero-ctas">
+      <a href="#quiz" class="btn btn-primary">Обсудить проект</a>
+      <a href="#experience" class="btn btn-ghost">Читать отзывы клиентов</a>
+    </div>
+    <p class="hero-note">Бесплатно, без обязательств — отвечаем в течение рабочего дня.</p>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap stats-grid">
+    <div class="stat"><b>9 лет</b><span>проектируем только медицинские объекты</span></div>
+    <div class="stat"><b>100+</b><span>реализованных объектов по всей России</span></div>
+    <div class="stat"><b>5</b><span>профилей клиник — от стоматологии до МРТ</span></div>
+    <div class="stat"><b>400 м²</b><span>минимальная площадь, с которой работаем</span></div>
+  </div>
+</div>
+
+<div class="quote-block">
+  <div class="wrap">
+    <blockquote>«Клиника — это первое, что видит пациент, и то, что решает, вернётся ли он снова».</blockquote>
+    <p class="quote-attr"><b>Азнаур Гамзатов</b> — основатель МедПроект</p>
+  </div>
+</div>
+
+<section class="section-alt" id="experience">
+  <div class="wrap">
+    <div class="sheet-rule"><span class="code">TD-02</span><span class="name">ОПЫТ И ПОДТВЕРЖДЕНИЯ</span></div>
+    <div class="section-head">
+      <h2>Нам доверяют — и это можно проверить</h2>
+      <p class="lede">Не обещания, а письма от тех, кто уже прошёл с нами весь путь: от первого эскиза до работающей клиники.</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review">
+        <p>«Задачи любой сложности решались системно, точно в установленные графиком сроки. Документация прошла все процедуры согласования без замечаний.»</p>
+        <div class="review-attr"><b>Ибрагимов Т.Т.</b>Генеральный директор, ООО «22 ДЖИ КЛИНИК»</div>
+      </div>
+      <div class="review">
+        <p>«Все услуги предоставлены на высочайшем уровне, в полном соответствии с действующими стандартами и санитарно-эпидемиологическими нормами.»</p>
+        <div class="review-attr"><b>Сайдуллаев З.М.</b>Генеральный директор, ООО «Амрита»</div>
+      </div>
+      <div class="review">
+        <p>«Безупречное качество проектной документации и строгое соблюдение нормативных требований. Отдельно отмечаем высокий уровень сервиса и клиентского контроля.»</p>
+        <div class="review-attr"><b>Гамов Р.В.</b>Генеральный директор, ООО «ИНВИТРО-Воронеж»</div>
+      </div>
+      <div class="review">
+        <p>«Специфика высокотехнологичной офтальмохирургии предъявляет бескомпромиссные требования к микроклимату и инженерии. Центр прошёл все контролирующие проверки с первого раза.»</p>
+        <div class="review-attr"><b>Сташкова Е.А.</b>Директор, Центр офтальмохирургии «Ирис», Краснодар</div>
+      </div>
+    </div>
+    <p class="certline">Нам доверяют <strong>частные инвесторы, сетевые клиники и государственные структуры</strong>. Член СРО НОПРИЗ, система менеджмента качества сертифицирована по ГОСТ Р ИСО 9001.</p>
+  </div>
+</section>
+
+<section id="focus">
+  <div class="wrap">
+    <div class="sheet-rule"><span class="code">TD-03</span><span class="name">НАПРАВЛЕНИЯ РАБОТЫ</span></div>
+    <div class="section-head">
+      <h2>Мы работаем не со всеми — и это осознанный выбор</h2>
+      <p class="lede">Фокус на объектах от 400 м² позволяет вкладываться в каждый проект так, будто он последний в карьере.</p>
+    </div>
+    <div class="focus-grid">
+      <div class="focus-card">
+        <svg class="focus-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="4" y="6" width="16" height="16"/><rect x="28" y="6" width="16" height="16"/>
+          <rect x="4" y="26" width="16" height="16"/><rect x="28" y="26" width="16" height="16"/>
+          <path d="M20 14h8M12 22v4M36 22v4"/>
+        </svg>
+        <h3>Сети клиник</h3>
+        <p>Разрабатываем решение, которое масштабируется без потери качества — в новом городе, в новом помещении, с новой командой.</p>
+        <ul class="focus-list">
+          <li>Единые стандарты зонирования и отделки для всех филиалов</li>
+          <li>Технологический раздел под конкретный набор кабинетов</li>
+          <li>Адаптация проекта под условия каждого нового города</li>
+        </ul>
+        <a href="#quiz" class="btn btn-ghost btn-sm">Обсудить сеть клиник</a>
+      </div>
+      <div class="focus-card">
+        <svg class="focus-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="10"/>
+          <path d="M24 6v8M24 34v8M6 24h8M34 24h8"/>
+        </svg>
+        <h3>МРТ- и диагностические центры</h3>
+        <p>Самый требовательный тип объекта — и наша сильная сторона. Ошибка здесь стоит остановки томографа на недели.</p>
+        <ul class="focus-list">
+          <li>Электромагнитное экранирование и радиационная защита</li>
+          <li>Вентиляция и электроснабжение под тяжёлое оборудование</li>
+          <li>Согласование решений с поставщиком техники на этапе проекта</li>
+        </ul>
+        <a href="#quiz" class="btn btn-ghost btn-sm">Обсудить диагностический центр</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="wrap">
+    <div class="sheet-rule"><span class="code">TD-04</span><span class="name">ПОРЯДОК РАБОТЫ</span></div>
+    <div class="section-head">
+      <h2>Прозрачность на каждом шаге — без сюрпризов в смете и сроках</h2>
+    </div>
+    <div class="process-list">
+      <div class="process-item"><div class="process-num">Этап 01</div><h4>Замер и техническое задание</h4><p>Фиксируем исходные данные объекта и состав будущих кабинетов и потоков.</p></div>
+      <div class="process-item"><div class="process-num">Этап 02</div><h4>Концепция</h4><p>Планировочное решение и расстановка оборудования — пока варианты ещё дёшево менять.</p></div>
+      <div class="process-item"><div class="process-num">Этап 03</div><h4>Проектная документация</h4><p>Архитектура, конструктив, все инженерные разделы и технологические решения.</p></div>
+      <div class="process-item"><div class="process-num">Этап 04</div><h4>Передача и сопровождение</h4><p>Готовый комплект документации плюс сопровождение на экспертизе проекта.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="norms">
+  <div class="wrap">
+    <div class="sheet-rule"><span class="code">TD-05</span><span class="name">НОРМАТИВНАЯ БАЗА</span></div>
+    <div class="section-head">
+      <h2>Проектируем строго по регламенту, а не «на глаз»</h2>
+      <p class="lede">Каждое решение проверяется по действующим сводам правил и приказам Минздрава — полный перечень документов, которые мы держим под рукой на каждом проекте.</p>
+    </div>
+    <div class="norms-list">
+      <a class="norm-row" href="https://rad-pegasus-8a5ba2.netlify.app/assets/documents/sanpin-2-1-3678-20.pdf"><span class="norm-code">СанПиН 2.1.3678-20</span><span class="norm-title">Санитарно-эпидемиологические требования к эксплуатации помещений</span><span class="norm-go">PDF</span></a>
+      <a class="norm-row" href="https://rad-pegasus-8a5ba2.netlify.app/assets/documents/sp-158-13330-2014.pdf"><span class="norm-code">СП 158.13330.2014</span><span class="norm-title">Здания и помещения медицинских организаций</span><span class="norm-go">PDF</span></a>
+      <a class="norm-row" href="https://rad-pegasus-8a5ba2.netlify.app/assets/documents/sp-60-13330-2020.pdf"><span class="norm-code">СП 60.13330.2020</span><span class="norm-title">Отопление, вентиляция и кондиционирование воздуха</span><span class="norm-go">PDF</span></a>
+      <a class="norm-row" href="https://rad-pegasus-8a5ba2.netlify.app/assets/documents/sp-71-13130-2013.pdf"><span class="norm-code">СП 71.13130.2013</span><span class="norm-title">Пожарная безопасность зданий и сооружений</span><span class="norm-go">PDF</span></a>
+      <a class="norm-row" href="https://rad-pegasus-8a5ba2.netlify.app/assets/documents/sp-256-1325800-2016.pdf"><span class="norm-code">СП 256.1325800.2016</span><span class="norm-title">Электроустановки жилых и общественных зданий</span><span class="norm-go">PDF</span></a>
+      <a class="norm-row" href="https://rad-pegasus-8a5ba2.netlify.app/assets/documents/sanpin-2-6-1-1192-03.pdf"><span class="norm-code">СанПиН 2.6.1.1192-03</span><span class="norm-title">Требования к рентгенологическим кабинетам</span><span class="norm-go">PDF</span></a>
+      <a class="norm-row" href="https://rad-pegasus-8a5ba2.netlify.app/assets/documents/prikaz-298n.pdf"><span class="norm-code">Приказ №298н</span><span class="norm-title">Порядок оснащения диагностических кабинетов</span><span class="norm-go">PDF</span></a>
+      <a class="norm-row" href="https://rad-pegasus-8a5ba2.netlify.app/assets/documents/prikaz-560n.pdf"><span class="norm-code">Приказ №560н</span><span class="norm-title">Требования к оснащению медицинских кабинетов</span><span class="norm-go">PDF</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt" id="quiz">
+  <div class="wrap">
+    <div class="sheet-rule"><span class="code">TD-06</span><span class="name">ПЕРВЫЙ ШАГ</span></div>
+    <div class="section-head">
+      <h2>Готовы обсудить свой проект?</h2>
+      <p class="lede">Четыре коротких вопроса — и вы поймёте, с чего начать.</p>
+    </div>
+
+    <form class="quiz-shell" id="quizForm" name="clinic-quiz" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="clinic-quiz">
+      <p style="display:none"><label>Не заполняйте: <input name="bot-field"></label></p>
+      <input type="hidden" name="Тип учреждения" id="f-type">
+      <input type="hidden" name="Площадь" id="f-area">
+      <input type="hidden" name="Стадия проекта" id="f-stage">
+      <input type="hidden" name="Срок начала" id="f-timing">
+
+      <div class="quiz-progress">
+        <i class="done" data-i="0"></i><i data-i="1"></i><i data-i="2"></i><i data-i="3"></i><i data-i="4"></i>
+      </div>
+
+      <!-- step 0 -->
+      <div class="q-step" data-step="0">
+        <div class="quiz-step-label">Шаг 1 из 4</div>
+        <h3>Какой тип учреждения вы планируете?</h3>
+        <div class="option-grid" data-group="type">
+          <button type="button" class="opt">Сеть клиник / филиал</button>
+          <button type="button" class="opt">Диагностический центр (МРТ, КТ, рентген)</button>
+          <button type="button" class="opt">Многопрофильная клиника</button>
+          <button type="button" class="opt">Другое</button>
+        </div>
+      </div>
+
+      <!-- step 1 -->
+      <div class="q-step" data-step="1" style="display:none">
+        <div class="quiz-step-label">Шаг 2 из 4</div>
+        <h3>Какова примерная площадь помещения?</h3>
+        <div class="option-grid" data-group="area">
+          <button type="button" class="opt">До 100 м²</button>
+          <button type="button" class="opt">100–300 м²</button>
+          <button type="button" class="opt">300–600 м²</button>
+          <button type="button" class="opt">600–1000 м²</button>
+          <button type="button" class="opt">Более 1000 м²</button>
+        </div>
+        <div class="quiz-nav"><button type="button" class="btn btn-ghost btn-sm" data-back>Назад</button></div>
+      </div>
+
+      <!-- step 2 -->
+      <div class="q-step" data-step="2" style="display:none">
+        <div class="quiz-step-label">Шаг 3 из 4</div>
+        <h3>На каком этапе сейчас проект?</h3>
+        <div class="option-grid" data-group="stage">
+          <button type="button" class="opt">Только идея, нужна консультация</button>
+          <button type="button" class="opt">Есть помещение, нужен проект</button>
+          <button type="button" class="opt">Есть проект, нужна доработка</button>
+        </div>
+        <div class="quiz-nav"><button type="button" class="btn btn-ghost btn-sm" data-back>Назад</button></div>
+      </div>
+
+      <!-- step 3 -->
+      <div class="q-step" data-step="3" style="display:none">
+        <div class="quiz-step-label">Шаг 4 из 4</div>
+        <h3>Когда планируете начать?</h3>
+        <div class="option-grid" data-group="timing">
+          <button type="button" class="opt">В ближайший месяц</button>
+          <button type="button" class="opt">В течение 3 месяцев</button>
+          <button type="button" class="opt">В течение полугода</button>
+          <button type="button" class="opt">Пока изучаю вопрос</button>
+        </div>
+        <div class="quiz-nav"><button type="button" class="btn btn-ghost btn-sm" data-back>Назад</button></div>
+      </div>
+
+      <!-- step 4 : contact -->
+      <div class="q-step" data-step="4" style="display:none">
+        <div class="quiz-step-label" id="outcomeLabel">Ваш проект соответствует нашему профилю</div>
+        <h3 id="outcomeTitle">Отлично — обсудим детали</h3>
+        <p class="quiz-outcome" id="outcomeText">Оставьте контакты, и мы вернёмся с ориентировочными сроками и составом работ в течение одного рабочего дня.</p>
+        <div class="field"><label for="c-name">Имя</label><input id="c-name" name="Имя" type="text" placeholder="Подскажите, как к вам обращаться" required></div>
+        <div class="field"><label for="c-phone">Телефон</label><input id="c-phone" name="Телефон" type="tel" placeholder="Перезвоним в удобное время" required></div>
+        <div class="field"><label for="c-comment">Комментарий (необязательно)</label><textarea id="c-comment" name="Комментарий" placeholder="Коротко о задаче — если хотите"></textarea></div>
+        <button type="submit" class="btn btn-primary btn-block">Обсудить проект</button>
+        <div class="quiz-nav"><button type="button" class="btn btn-ghost btn-sm" data-back>Назад</button></div>
+        <p class="quiz-alt">Форма не открылась? Напишите на <a href="mailto:aznaur2107@mail.ru">aznaur2107@mail.ru</a></p>
+      </div>
+
+      <div class="quiz-success" id="quizSuccess">
+        <h3>Заявка сформирована</h3>
+        <p>Мы получили данные и вернёмся с ответом в течение одного рабочего дня. Если что-то пошло не так — напишите на <a href="mailto:aznaur2107@mail.ru">aznaur2107@mail.ru</a>.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section id="knowledge">
+  <div class="wrap">
+    <div class="sheet-rule"><span class="code">TD-07</span><span class="name">БАЗА ЗНАНИЙ</span></div>
+    <div class="section-head">
+      <h2>Изучаете вопрос самостоятельно?</h2>
+      <p class="lede">Здесь разобран свод правил для медицинских помещений — без формы заявки, просто читайте.</p>
+    </div>
+    <div class="kb-grid">
+      <a class="kb-card" href="#">
+        <div class="kb-tag">СанПиН 2.1.3678-20</div>
+        <h4>Что важно знать владельцу клиники</h4>
+        <p>Разбор требований к помещениям, оборудованию и микроклимату простым языком.</p>
+      </a>
+      <a class="kb-card" href="#">
+        <div class="kb-tag">СП 158.13330.2014</div>
+        <h4>Минимальная площадь помещений</h4>
+        <p>Таблица нормативной площади кабинетов и функциональных отделений.</p>
+      </a>
+      <a class="kb-card" href="#">
+        <div class="kb-tag">МРТ-кабинеты</div>
+        <h4>Требования к экранированию и защите</h4>
+        <p>Клетка Фарадея, виброизоляция и согласование с поставщиком томографа.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="final-cta">
+  <div class="wrap" style="padding:64px 0;">
+    <div class="final-cta-inner">
+      <h2>Через год здесь будет ваша клиника. Каким будет её первый день?</h2>
+      <a href="#quiz" class="btn btn-primary">Рассказать о проекте</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <a href="#top" class="logo">МедПроект</a>
+        <p>Проектирование медицинских учреждений от 400 м² — архитектура, инженерия, технологические решения. Работаем по всей России. Прямые договоры, без тендеров и субподряда.</p>
+      </div>
+      <div class="footer-contact">
+        Почта: <a href="mailto:aznaur2107@mail.ru">aznaur2107@mail.ru</a><br>
+        <a href="https://project-med.ru">project-med.ru</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © МедПроект. Член СРО НОПРИЗ. Система менеджмента качества сертифицирована по ГОСТ Р ИСО 9001-2015. Оставляя заявку, вы соглашаетесь с условиями обработки персональных данных в соответствии с Федеральным законом № 152-ФЗ.
+    </div>
+  </div>
+</footer>
+
+<div class="sticky-cta" id="stickyCta">
+  <span>Готовы обсудить проект?</span>
+  <a href="#quiz" class="btn btn-primary btn-sm">Обсудить проект</a>
+</div>
+
+<script>
+// theme toggle
+const themeBtn = document.getElementById('themeToggle');
+const root = document.documentElement;
+function applyTheme(t){
+  if(t){ root.setAttribute('data-theme', t); } else { root.removeAttribute('data-theme'); }
+}
+let saved = null;
+try{ saved = localStorage.getItem('mp-theme'); }catch(e){}
+if(saved) applyTheme(saved);
+themeBtn.addEventListener('click', ()=>{
+  const current = root.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light');
+  const next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  try{ localStorage.setItem('mp-theme', next); }catch(e){}
+});
+
+// mobile menu
+const menuBtn = document.getElementById('menuBtn');
+const mainNav = document.getElementById('mainNav');
+menuBtn.addEventListener('click', ()=> mainNav.classList.toggle('open'));
+mainNav.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>mainNav.classList.remove('open')));
+
+// sticky cta after hero, only on wider screens (matches original ≥760px behaviour)
+const hero = document.querySelector('.hero');
+const stickyCta = document.getElementById('stickyCta');
+const mq = window.matchMedia('(min-width:760px)');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(mq.matches){
+      stickyCta.style.display = 'flex';
+      stickyCta.classList.toggle('show', !entry.isIntersecting);
+    } else {
+      stickyCta.style.display = 'none';
+    }
+  });
+},{threshold:0});
+io.observe(hero);
+
+// quiz logic
+const form = document.getElementById('quizForm');
+const steps = Array.from(form.querySelectorAll('.q-step'));
+const progress = Array.from(form.querySelectorAll('.quiz-progress i'));
+let current = 0;
+const answers = {type:null, area:null, stage:null, timing:null};
+
+function showStep(i){
+  steps.forEach(s=> s.style.display = (+s.dataset.step === i) ? '' : 'none');
+  progress.forEach(p=> p.classList.toggle('done', +p.dataset.i <= i));
+  current = i;
+}
+
+form.querySelectorAll('.option-grid').forEach(grid=>{
+  const group = grid.dataset.group;
+  grid.querySelectorAll('.opt').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      grid.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[group] = btn.textContent;
+      document.getElementById('f-' + (group==='type'?'type':group)).value = btn.textContent;
+      setTimeout(()=>{
+        if(current < 3){ showStep(current+1); }
+        else { resolveOutcome(); showStep(4); }
+      }, 150);
+    });
+  });
+});
+
+form.querySelectorAll('[data-back]').forEach(b=> b.addEventListener('click', ()=> showStep(Math.max(0,current-1))));
+
+function resolveOutcome(){
+  const bigEnough = ['300–600 м²','600–1000 м²','Более 1000 м²'].includes(answers.area);
+  const label = document.getElementById('outcomeLabel');
+  const title = document.getElementById('outcomeTitle');
+  const text = document.getElementById('outcomeText');
+  if(bigEnough){
+    label.textContent = 'Ваш проект соответствует нашему профилю';
+    title.textContent = 'Отлично — обсудим детали';
+    text.textContent = 'Оставьте контакты, и мы вернёмся с ориентировочными сроками и составом работ в течение одного рабочего дня.';
+  } else {
+    label.textContent = 'Проект меньше нашего обычного профиля';
+    title.textContent = 'Мы специализируемся на объектах от 400 м²';
+    text.textContent = 'Для меньшей площади можем провести платную консультацию — разберём, что реально разместить в помещении и на что обратить внимание при проектировании.';
+  }
+}
+
+document.getElementById('f-area') && document.getElementById('f-area');
+form.querySelectorAll('[data-group="area"] .opt').forEach(b=>b.addEventListener('click', ()=>{ document.getElementById('f-area').value = b.textContent; }));
+form.querySelectorAll('[data-group="stage"] .opt').forEach(b=>b.addEventListener('click', ()=>{ document.getElementById('f-stage').value = b.textContent; }));
+form.querySelectorAll('[data-group="timing"] .opt').forEach(b=>b.addEventListener('click', ()=>{ document.getElementById('f-timing').value = b.textContent; }));
+</script>
+</body>
+</html>
